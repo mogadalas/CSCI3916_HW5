@@ -19,7 +19,7 @@ const router = express.Router();
 
 // Removed getJSONObjectForMovieRequirement as it's not used
 
-/*
+
 router.post('/signup', async (req, res) => { // Use async/await
   if (!req.body.username || !req.body.password) {
     return res.status(400).json({ success: false, msg: 'Please include both username and password to signup.' }); // 400 Bad Request
@@ -44,7 +44,6 @@ router.post('/signup', async (req, res) => { // Use async/await
     }
   }
 });
-*/
 
 router.post('/signin', async (req, res) => { // Use async/await
   try {
