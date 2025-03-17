@@ -69,3 +69,4 @@ Create a collection in MongoDB to hold information about movies
 ## Resources
 - https://www.mongodb.com/cloud/atlas
 - Create a Free Subscription *Amazon
+- https://render.com/docs/deploy-create-react-app **important: Environment Variable for https://github.com/AliceNN-ucdenver/CSC3916_REACT env.REACT_APP_API_URL, this weekend I will look at changes (I believe only 1 change in the actions)
