@@ -7,6 +7,7 @@ const cors = require("cors");
 const User = require("./Users");
 const Movie = require("./Movies"); // You're not using Movie, consider removing it
 require("dotenv").config(); // Load environment variables from .env file
+const Review = require("./Reviews")
 
 const app = express();
 
@@ -203,6 +204,87 @@ router
     }
   });
 
+// GET request for Reviews - Review ID (get a request by ID)
+router
+  .route("/reviews/:reviewId")
+  .get(authJwtController.isAuthenticated, async (req, res) => {
+    try {
+      const movie = await Review.findById(req.params.reviewId);
+      if (!movie) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Review not found" });
+      }
+      res.json(movie);
+    } catch (err) {
+      console.error(err);
+      if (err.name === "CastError") {
+        return res
+          .status(400)
+          .json({ success: false, message: "Invalid Review ID." });
+      }
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. Please try again later.",
+      });
+  }
+
+// PUT request for Reviews - Review ID (update an exisiting request)
+  .put(authJwtController.isAuthenticated, async (req, res) => {
+    try {
+      const movie = await Review.findByIdAndUpdate(
+        req.params.movieId,
+        req.body,
+        { new: true, runValidators: true } // Return the updated document and run validators
+      );
+      if (!movie) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Movie not found" });
+      }
+      res.json({ success: true, movie: movie });
+    } catch (err) {
+      console.error(err);
+      if (err.name === "CastError") {
+        return res
+          .status(400)
+          .json({ success: false, message: "Invalid Request ID." });
+      }
+      if (err.name === 'ValidationError'){
+         return res.status(400).json({
+        success: false,
+        message: "Invalid Request information.",
+      });
+      }
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. Please try again later.",
+      });
+    }
+  })
+
+  // DELETE request for Reviews - Review ID (delete a request)
+  .delete(authJwtController.isAuthenticated, async (req, res) => {
+    try {
+      const movie = await Review.findByIdAndDelete(req.params.reviewId);
+      if (!movie) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Movie not found" });
+      }
+      res.json({ success: true, message: "Movie deleted successfully" });
+    } catch (err) {
+      console.error(err);
+      if (err.name === "CastError") {
+        return res
+          .status(400)
+          .json({ success: false, message: "Invalid Movie ID." });
+      }
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. Please try again later.",
+      });
+    }
 app.use("/", router);
 
 const PORT = process.env.PORT || 8080; // Define PORT before using it
