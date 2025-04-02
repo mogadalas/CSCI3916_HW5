@@ -204,6 +204,38 @@ router
     }
   });
 
+
+router
+  .route("/reviews")
+  .get(authJwtController.isAuthenticated, async (req, res) => {
+    try {
+      const movies = await Review.find({}); // Fetch all movies from the database
+      console.log(movies); // Log the movies for debugging
+
+      res.json(movies);
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. Please try again later.",
+      }); // 500 Internal Server Error
+    }
+  })
+  .post(authJwtController.isAuthenticated, async (req, res) => {
+    const movie = new Review(req.body); // Create a new movie instance with the request body
+    try {
+      await movie.save(); // Save the movie to the database
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      return res.status(500).json({
+        success: false,
+        message: "Something went wrong. Please try again later.",
+      }); // 500 Internal Server Error
+    }
+
+    res.status(201).json({ success: true, movie: movie }); // 201 Created
+  });
+
 // GET request for Reviews - Review ID (get a request by ID)
 router
   .route("/reviews/:reviewId")
@@ -228,19 +260,21 @@ router
         message: "Something went wrong. Please try again later.",
       });
   }
+})
 
 // PUT request for Reviews - Review ID (update an exisiting request)
+  .route("/reviews/:reviewId")
   .put(authJwtController.isAuthenticated, async (req, res) => {
     try {
       const movie = await Review.findByIdAndUpdate(
-        req.params.movieId,
+        req.params.reviewId,
         req.body,
         { new: true, runValidators: true } // Return the updated document and run validators
       );
       if (!movie) {
         return res
           .status(404)
-          .json({ success: false, message: "Movie not found" });
+          .json({ success: false, message: "Request not found" });
       }
       res.json({ success: true, movie: movie });
     } catch (err) {
@@ -264,21 +298,22 @@ router
   })
 
   // DELETE request for Reviews - Review ID (delete a request)
+  .route("/reviews/:reviewId")
   .delete(authJwtController.isAuthenticated, async (req, res) => {
     try {
       const movie = await Review.findByIdAndDelete(req.params.reviewId);
       if (!movie) {
         return res
           .status(404)
-          .json({ success: false, message: "Movie not found" });
+          .json({ success: false, message: "Review not found" });
       }
-      res.json({ success: true, message: "Movie deleted successfully" });
+      res.json({ success: true, message: "Review deleted successfully" });
     } catch (err) {
       console.error(err);
       if (err.name === "CastError") {
         return res
           .status(400)
-          .json({ success: false, message: "Invalid Movie ID." });
+          .json({ success: false, message: "Invalid Review ID." });
       }
       res.status(500).json({
         success: false,
