@@ -263,6 +263,7 @@ router
 })
 
 // PUT request for Reviews - Review ID (update an exisiting request)
+router
   .route("/reviews/:reviewId")
   .put(authJwtController.isAuthenticated, async (req, res) => {
     try {
@@ -298,6 +299,7 @@ router
   })
 
   // DELETE request for Reviews - Review ID (delete a request)
+router
   .route("/reviews/:reviewId")
   .delete(authJwtController.isAuthenticated, async (req, res) => {
     try {
@@ -328,5 +330,4 @@ app.listen(PORT, () => {
 });
 
 module.exports = app; // for testing only
-
-
+});
