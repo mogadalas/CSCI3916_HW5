@@ -323,6 +323,7 @@ router
       });
     }
 app.use("/", router);
+});
 
 const PORT = process.env.PORT || 8080; // Define PORT before using it
 app.listen(PORT, () => {
@@ -330,4 +331,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app; // for testing only
-});
