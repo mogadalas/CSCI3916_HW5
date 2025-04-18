@@ -13,5 +13,3 @@ Assignment 4 will be adding on the Reviews.js file with the Requests for Reviews
 The installtion for this project will be npm install and npm start.
 
 ## Environment Settings
-
-Right now, the environement on Render isn't able to be deployed because there is an error in server.js
