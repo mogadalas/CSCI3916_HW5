@@ -18,52 +18,11 @@ app.use(passport.initialize());
 
 const router = express.Router(); 
 
-//const Movie = require('./models/Movie'); // A model named "Movie" would be created
-
-/*
-// get all movies
-router.route('/movies').get(async (req, res) => {
-    try {
-        if (req.query.reviews === "true") {
-            const movies = await Movie.aggregate([
-                // Aggregation pipeline to include movie data with reviews
-                /*
-                { $lookup: { from: "reviews", localField: "_id", foreignField: "movieId", as: "reviews" } }
-            ]);
-            res.status(200).json(movies);
-        } else {
-            const movies = await Movie.find(); // get all movies without reviews
-            res.status(200).json(movies);
-        }
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
-
-// get a movie (saved) with reviews
-router.route('/movies/:movieId').get(async (req, res) => {
-    const id = req.params.movieId;
-    try {
-        if (req.query.reviews === "true") {
-            const movie = await Movie.aggregate([
-                { $match: { _id: id } },
-                { $lookup: { from: "reviews", localField: "_id", foreignField: "movieId", as: "reviews" } }
-            ]);
-            res.status(200).json(movie);
-        } else {
-            const movie = await Movie.findById(id); // Get movie data without reviews
-            res.status(200).json(movie);
-        }
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
-
-module.exports = router;
-*/
 
 
-router.post("/signup", async (req, res) => {
+
+
+router.post('/signup', async (req, res) => {
   // Use async/await
   if (!req.body.username || !req.body.password) {
     return res.status(400).json({
@@ -367,10 +326,11 @@ router
         message: "Something went wrong. Please try again later.",
       });
     }
-app.use("/", router);
 });
 
 
+
+app.use("/", router);
 
 const PORT = process.env.PORT || 8080; // Define PORT before using it
 app.listen(PORT, () => {
