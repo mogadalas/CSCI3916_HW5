@@ -364,7 +364,6 @@ router
     } 
   });
 
-
 app.use("/",router); // Use the router for all routes
 const PORT = process.env.PORT || 8080; // Define PORT before using it
 app.listen(PORT, () => {
