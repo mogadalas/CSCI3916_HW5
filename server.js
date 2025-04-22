@@ -18,11 +18,7 @@ app.use(passport.initialize());
 
 const router = express.Router(); 
 
-
-
-
-
-router.post('/signup', async (req, res) => {
+router.post("/signup", async (req, res) => {
   // Use async/await
   if (!req.body.username || !req.body.password) {
     return res.status(400).json({
@@ -133,13 +129,36 @@ router
   .route("/movies/:movieId")
   .get(authJwtController.isAuthenticated, async (req, res) => {
     try {
-      const movie = await Movie.findById(req.params.movieId);
+      // Check if reviews should be included
+      const includeReviews = req.query.reviews === 'true';
+      
+      // Find the movie
+      let movie = await Movie.findById(req.params.movieId);
+      
       if (!movie) {
         return res
           .status(404)
           .json({ success: false, message: "Movie not found" });
       }
-      res.json(movie);
+
+      // If reviews are requested, fetch and include them
+      if (includeReviews) {
+        const reviews = await Review.find({ movieId: req.params.movieId });
+        // Convert movie to object to add reviews
+        const movieObj = movie.toObject();
+        movieObj.reviews = reviews;
+        
+        // Calculate average rating if reviews exist
+        if (reviews.length > 0) {
+          const avgRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
+          movieObj.averageRating = avgRating.toFixed(1);
+        }
+        
+        res.json({ success: true, movie: movieObj });
+      } else {
+        // Return just the movie without reviews
+        res.json({ success: true, movie: movie });
+      }
     } catch (err) {
       console.error(err);
       if (err.name === "CastError") {
@@ -208,7 +227,6 @@ router
     }
   });
 
-
 router
   .route("/reviews")
   .get(authJwtController.isAuthenticated, async (req, res) => {
@@ -268,13 +286,35 @@ router
 
 // PUT request for Reviews - Review ID (update an exisiting request)
 router
-  .route("/reviews/:reviewId")
+  .route("/reviews/:movieId")
+  .get(authJwtController.isAuthenticated, async (req, res) => {
+    try {
+      const movie = await Review.find( { movieId: req.params.movieId });
+      if (!movie) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Review not found" });
+      }
+      res.json(movie);
+    } catch (err) {
+      console.error(err);
+      if (err.name === "CastError") {
+        return res
+          .status(400)
+          .json({ success: false, message: "Invalid Review ID." });
+      }
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. Please try again later.",
+      });
+    }
+  })
   .put(authJwtController.isAuthenticated, async (req, res) => {
     try {
       const movie = await Review.findByIdAndUpdate(
         req.params.reviewId,
         req.body,
-        { new: true, runValidators: true } // Return the updated document and run validators
+        { new: true, runValidators: true }
       );
       if (!movie) {
         return res
@@ -290,10 +330,10 @@ router
           .json({ success: false, message: "Invalid Request ID." });
       }
       if (err.name === 'ValidationError'){
-         return res.status(400).json({
-        success: false,
-        message: "Invalid Request information.",
-      });
+        return res.status(400).json({
+          success: false,
+          message: "Invalid Request information.",
+        });
       }
       res.status(500).json({
         success: false,
@@ -301,10 +341,6 @@ router
       });
     }
   })
-
-  // DELETE request for Reviews - Review ID (delete a request)
-router
-  .route("/reviews/:reviewId")
   .delete(authJwtController.isAuthenticated, async (req, res) => {
     try {
       const movie = await Review.findByIdAndDelete(req.params.reviewId);
@@ -325,13 +361,11 @@ router
         success: false,
         message: "Something went wrong. Please try again later.",
       });
-    }
-});
+    } 
+  });
 
 
-
-app.use("/", router);
-
+app.use("/",router); // Use the router for all routes
 const PORT = process.env.PORT || 8080; // Define PORT before using it
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
