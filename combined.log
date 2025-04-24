@@ -1,0 +1,12 @@
+{"level":"info","message":"Processing JWT payload","payload":{"exp":1745530497,"iat":1745526897,"id":"6803c8e2f52120e44f9b047a","username":"Kamryn.Bartell@yahoo.com"},"timestamp":"2025-04-24T20:40:16.732Z"}
+{"level":"info","message":"User authenticated successfully","timestamp":"2025-04-24T20:40:16.789Z","username":"Kamryn.Bartell@yahoo.com"}
+{"level":"info","message":"Processing JWT payload","payload":{"exp":1745531461,"iat":1745527861,"id":"6803c8e2f52120e44f9b047a","username":"Kamryn.Bartell@yahoo.com"},"timestamp":"2025-04-24T20:51:27.277Z"}
+{"level":"info","message":"User authenticated successfully","timestamp":"2025-04-24T20:51:27.331Z","username":"Kamryn.Bartell@yahoo.com"}
+{"level":"info","message":"Processing JWT payload","payload":{"exp":1745531461,"iat":1745527861,"id":"6803c8e2f52120e44f9b047a","username":"Kamryn.Bartell@yahoo.com"},"timestamp":"2025-04-24T20:52:30.434Z"}
+{"level":"info","message":"User authenticated successfully","timestamp":"2025-04-24T20:52:30.486Z","username":"Kamryn.Bartell@yahoo.com"}
+{"level":"info","message":"Processing JWT payload","payload":{"exp":1745531461,"iat":1745527861,"id":"6803c8e2f52120e44f9b047a","username":"Kamryn.Bartell@yahoo.com"},"timestamp":"2025-04-24T20:55:46.374Z"}
+{"level":"info","message":"User authenticated successfully","timestamp":"2025-04-24T20:55:46.438Z","username":"Kamryn.Bartell@yahoo.com"}
+{"level":"info","message":"Processing JWT payload","payload":{"exp":1745531461,"iat":1745527861,"id":"6803c8e2f52120e44f9b047a","username":"Kamryn.Bartell@yahoo.com"},"timestamp":"2025-04-24T20:56:00.820Z"}
+{"level":"info","message":"User authenticated successfully","timestamp":"2025-04-24T20:56:00.873Z","username":"Kamryn.Bartell@yahoo.com"}
+{"level":"info","message":"Processing JWT payload","payload":{"exp":1745532010,"iat":1745528410,"id":"6803c8e2f52120e44f9b047a","username":"Kamryn.Bartell@yahoo.com"},"timestamp":"2025-04-24T21:00:49.017Z"}
+{"level":"info","message":"User authenticated successfully","timestamp":"2025-04-24T21:00:49.069Z","username":"Kamryn.Bartell@yahoo.com"}
