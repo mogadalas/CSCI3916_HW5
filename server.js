@@ -76,7 +76,7 @@ router.post("/signin", async (req, res) => {
     if (isMatch) {
       const userToken = { id: user._id, username: user.username }; // Use user._id (standard Mongoose)
       const token = jwt.sign(userToken, process.env.SECRET_KEY, {
-        expiresIn: "1h",
+        expiresIn: "30d",
       }); // Add expiry to the token (e.g., 1 hour)
       res.json({ success: true, token: "JWT " + token });
     } else {
