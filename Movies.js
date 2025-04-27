@@ -14,7 +14,8 @@ const connectDB = async () => {
 
 connectDB();
 
-// Movie schema
+/*
+// previous MovieSchema - HW4
 const MovieSchema = new mongoose.Schema({
   title: { type: String, required: true, index: true },
   releaseDate: { type: Number, min: [1900, 'Must be greater than 1899'], max: [2100, 'Must be less than 2100']},
@@ -28,7 +29,18 @@ const MovieSchema = new mongoose.Schema({
     actorName: String,
     characterName: String,
   }],
-});
+*/
 
+const MovieSchema = new mongoose.Schema({
+  title: { type: String, required: true, index: true },
+  releaseDate: { type: Number, min: [1900, 'Must be greater than 1899'], max: [2100, 'Must be less than 2100']},
+  genre: { type: String, enum: [
+    'Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Thriller', 'Western', 'Science Fiction'
+  ], 
+},
+    actors: [ActorSchema],
+    imageUrl: String,
+    // rest of your fields
+  })
 
 module.exports = mongoose.model('Movie', MovieSchema);
