@@ -38,9 +38,11 @@ const MovieSchema = new mongoose.Schema({
     'Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Thriller', 'Western', 'Science Fiction'
   ], 
 },
-    actors: [ActorSchema],
+  actors: [{
+    actorName: String,
+    characterName: String,
     imageUrl: String,
-    // rest of your fields
+  }],
   })
 
 module.exports = mongoose.model('Movie', MovieSchema);
